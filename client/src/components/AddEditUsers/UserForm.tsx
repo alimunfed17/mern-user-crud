@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 
 interface UserFormProps {
   initialData?: any
-  onSubmit: (data: any) => void
+  onSubmit: (data: any) => Promise<void>
 }
 
 const UserForm: FC<UserFormProps> = ({ initialData, onSubmit }) => {
@@ -20,6 +20,7 @@ const UserForm: FC<UserFormProps> = ({ initialData, onSubmit }) => {
     status: "",
     resume: ""
   })
+  const [error, setError] = useState("")
 
   useEffect(() => {
     if (initialData) setForm(initialData)
@@ -33,17 +34,30 @@ const UserForm: FC<UserFormProps> = ({ initialData, onSubmit }) => {
     setForm({ ...form, [name]: value })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError("")
+
     const requiredFields = ["name", "email", "phone", "gender", "status", "resume"]
     for (const field of requiredFields) {
-      if (!form[field as keyof typeof form]) return
+      if (!form[field as keyof typeof form]) {
+        setError(`Please fill in the ${field} field.`)
+        return
+      }
     }
-    onSubmit(form)
+
+    try {
+      await onSubmit(form)
+    } catch (err: any) {
+      // Display backend error
+      setError(err?.response?.data?.message || "Failed to submit form")
+    }
   }
 
   return (
     <form className="grid gap-4 max-w-xl mx-auto p-6" onSubmit={handleSubmit}>
+      {error && <div className="text-red-600 font-medium">{error}</div>}
+
       <div className="grid gap-1">
         <Label>Name</Label>
         <Input
