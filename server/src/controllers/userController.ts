@@ -9,7 +9,19 @@ export const createUser = async (req: Request, res: Response) => {
     await user.save();
     res.status(201).json(user);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    console.error("CreateUser error:", error);
+
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map((err: any) => err.message);
+      return res.status(400).json({ message: messages.join(", ") });
+    }
+
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyValue)[0];
+      return res.status(400).json({ message: `${field} already exists` });
+    }
+
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -58,13 +70,14 @@ export const getUsers = async (req: Request, res: Response) => {
       .limit(+limit);
 
     const total = await User.countDocuments(query);
+    const totalPages = Math.ceil(total / +limit);
 
     res.json({
       users,
       total,
       page: +page,
-      pages: Math.ceil(total / +limit),
-      hasNext: +page < Math.ceil(total / +limit),
+      totalPages,
+      hasNext: +page < totalPages,
       hasPrev: +page > 1,
     });
   } catch (error: any) {
@@ -75,19 +88,28 @@ export const getUsers = async (req: Request, res: Response) => {
 // ----------- Export Users as CSV -----------
 export const exportUsers = async (_req: Request, res: Response) => {
   try {
-    const users = await User.find({});
+    const users = await User.find({}).lean();
 
     if (users.length === 0) {
       return res.status(404).json({ message: "No users found to export" });
     }
 
-    // Define fields to include in CSV
-    const fields = ['_id', 'name', 'email', 'phone'];
+    const fields = [
+      "_id",
+      "name",
+      "email",
+      "phone",
+      "gender",
+      "status",
+      "resume",
+      "createdAt",
+      "updatedAt"
+    ];
+
     const csv = parse(users, { fields });
 
-    // Send CSV directly to client
-    res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', 'attachment; filename="users.csv"');
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", 'attachment; filename="users.csv"');
     res.status(200).send(csv);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
