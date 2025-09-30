@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
-import AddUser from "./AddUser"
-import EditUser from "./EditUser"
+import AddUser from "../components/AddEditUsers/AddUser"
+import EditUser from "../components/AddEditUsers/EditUser";
 
 export default function AddEditUser() {
   const { id } = useParams()

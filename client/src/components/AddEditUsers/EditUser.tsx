@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { updateUser, getUser } from "../../services/api";
-import UserForm from "../UserForm"
+import UserForm from "./UserForm"
 import { useSnackbar } from "notistack"
 
 export default function EditUser() {

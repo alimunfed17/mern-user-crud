@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { createUser } from "../../services/api";
-import UserForm from "../UserForm"
+import UserForm from "./UserForm"
 import { useSnackbar } from "notistack"
 
 export default function AddUser() {
