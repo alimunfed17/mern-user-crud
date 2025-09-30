@@ -35,7 +35,7 @@ const UserForm: FC<UserFormProps> = ({ initialData, onSubmit }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const requiredFields = ["name", "email", "phone", "address", "gender", "status", "resume"]
+    const requiredFields = ["name", "email", "phone", "gender", "status", "resume"]
     for (const field of requiredFields) {
       if (!form[field as keyof typeof form]) return
     }
