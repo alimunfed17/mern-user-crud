@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Pagination } from "@/components/Layout/Pagination"
 
 interface User {
   _id: string
@@ -19,17 +20,33 @@ interface User {
 
 interface UserTableProps {
   users: User[]
+  total: number
+  page: number
+  limit: number
+  onPageChange: (page: number) => void
   onEdit: (id: string) => void
   onDelete: (id: string) => void
   onView: (id: string) => void
 }
 
-export function UserTable({ users, onEdit, onDelete, onView }: UserTableProps) {
+export function UserTable({
+  users,
+  total,
+  page,
+  limit,
+  onPageChange,
+  onEdit,
+  onDelete,
+  onView,
+}: UserTableProps) {
+  const totalPages = Math.ceil(total / limit)
+
   return (
     <div className="rounded-md border">
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead>#</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Gender</TableHead>
@@ -40,8 +57,9 @@ export function UserTable({ users, onEdit, onDelete, onView }: UserTableProps) {
         </TableHeader>
         <TableBody>
           {users.length > 0 ? (
-            users.map((user) => (
+            users.map((user, index) => (
               <TableRow key={user._id}>
+                <TableCell>{(page - 1) * limit + index + 1}</TableCell>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.gender || "—"}</TableCell>
@@ -90,13 +108,15 @@ export function UserTable({ users, onEdit, onDelete, onView }: UserTableProps) {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={6} className="text-center text-gray-500">
+              <TableCell colSpan={7} className="text-center text-gray-500">
                 No users found
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
+
+      <Pagination page={page} totalPages={totalPages} onPageChange={onPageChange} />
     </div>
   )
 }

@@ -11,20 +11,26 @@ import { UserTable } from "@/components/ListUsers/UserTable"
 export default function ListUsers() {
   const [users, setUsers] = useState<any[]>([])
   const [search, setSearch] = useState("")
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  const limit = 10
+
   const navigate = useNavigate()
   const { enqueueSnackbar } = useSnackbar()
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (currentPage = page, query = search) => {
     try {
-      const res = await getUsers(1, 10, search)
+      const res = await getUsers(currentPage, limit, query)
       setUsers(res.data.users)
+      setPage(res.data.page)
+      setTotal(res.data.total) // total count of users
     } catch (err) {
       enqueueSnackbar("Failed to fetch users", { variant: "error" })
     }
   }
 
   useEffect(() => {
-    fetchUsers()
+    fetchUsers(1, search)
   }, [search])
 
   const handleDelete = async (id: string) => {
@@ -64,6 +70,10 @@ export default function ListUsers() {
 
         <UserTable
           users={users}
+          total={total}
+          page={page}
+          limit={limit}
+          onPageChange={(newPage) => fetchUsers(newPage)}
           onEdit={(id) => navigate(`/edit/${id}`)}
           onDelete={handleDelete}
           onView={(id) => navigate(`/view/${id}`)}
