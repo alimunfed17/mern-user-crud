@@ -40,3 +40,25 @@ export const deleteUser = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getUsers = async (req: Request, res: Response) => {
+  try {
+    const { page = 1, limit = 10, q = "" } = req.query;
+    const query = q ? { name: { $regex: q as string, $options: "i" } } : {};
+
+    const users = await User.find(query)
+      .skip((+page - 1) * +limit)
+      .limit(+limit);
+
+    const total = await User.countDocuments(query);
+
+    res.json({
+      users,
+      total,
+      page: +page,
+      pages: Math.ceil(total / +limit)
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
