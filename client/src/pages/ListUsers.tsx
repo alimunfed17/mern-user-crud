@@ -23,7 +23,7 @@ export default function ListUsers() {
       const res = await getUsers(currentPage, limit, query)
       setUsers(res.data.users)
       setPage(res.data.page)
-      setTotal(res.data.total) // total count of users
+      setTotal(res.data.total)
     } catch (err) {
       enqueueSnackbar("Failed to fetch users", { variant: "error" })
     }
@@ -58,9 +58,10 @@ export default function ListUsers() {
   }
 
   return (
-    <div className="flex justify-center items-start min-h-screen p-6">
-      <div className="w-full max-w-4xl space-y-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-3">
+    <div className="flex justify-center items-start min-h-screen bg-gray-200 border shadow-lg rounded-xl my-8">
+      <div className="w-full max-w-4xl flex flex-col space-y-6 py-6">
+
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 border border-gray-500 rounded-xl p-4 ">
           <SearchBar value={search} onChange={setSearch} />
           <div className="flex gap-2">
             <ExportButton onClick={handleExport} />
@@ -68,16 +69,18 @@ export default function ListUsers() {
           </div>
         </div>
 
-        <UserTable
-          users={users}
-          total={total}
-          page={page}
-          limit={limit}
-          onPageChange={(newPage) => fetchUsers(newPage)}
-          onEdit={(id) => navigate(`/edit/${id}`)}
-          onDelete={handleDelete}
-          onView={(id) => navigate(`/view/${id}`)}
-        />
+        <div className="flex-1 overflow-auto ">
+          <UserTable
+            users={users}
+            total={total}
+            page={page}
+            limit={limit}
+            onPageChange={(newPage) => fetchUsers(newPage)}
+            onEdit={(id) => navigate(`/edit/${id}`)}
+            onDelete={handleDelete}
+            onView={(id) => navigate(`/view/${id}`)}
+          />
+        </div>
       </div>
     </div>
   )

@@ -42,30 +42,33 @@ export function UserTable({
   const totalPages = Math.ceil(total / limit)
 
   return (
-    <div className="rounded-md border">
-      <Table>
+    <div className="overflow-x-auto rounded-md border border-gray-200 shadow-sm">
+      <Table className="min-w-full">
         <TableHeader>
-          <TableRow>
-            <TableHead>#</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Gender</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Resume</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+          <TableRow className="bg-gray-50 border-b">
+            <TableHead className="px-4 py-2 text-left">#</TableHead>
+            <TableHead className="px-4 py-2 text-left">Name</TableHead>
+            <TableHead className="px-4 py-2 text-left">Email</TableHead>
+            <TableHead className="px-4 py-2 text-left">Gender</TableHead>
+            <TableHead className="px-4 py-2 text-left">Status</TableHead>
+            <TableHead className="px-4 py-2 text-left">Resume</TableHead>
+            <TableHead className="px-4 py-2 text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {users.length > 0 ? (
             users.map((user, index) => (
-              <TableRow key={user._id}>
-                <TableCell>{(page - 1) * limit + index + 1}</TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.gender || "—"}</TableCell>
-                <TableCell>
+              <TableRow
+                key={user._id}
+                className="border-b hover:bg-gray-50 transition-colors"
+              >
+                <TableCell className="px-4 py-2">{(page - 1) * limit + index + 1}</TableCell>
+                <TableCell className="px-4 py-2">{user.name}</TableCell>
+                <TableCell className="px-4 py-2">{user.email}</TableCell>
+                <TableCell className="px-4 py-2">{user.gender || "—"}</TableCell>
+                <TableCell className="px-4 py-2">
                   <span
-                    className={`px-2 py-1 rounded text-xs ${
+                    className={`px-2 py-1 rounded text-xs font-medium ${
                       user.status === "active"
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-700"
@@ -74,7 +77,7 @@ export function UserTable({
                     {user.status || "unknown"}
                   </span>
                 </TableCell>
-                <TableCell>
+                <TableCell className="px-4 py-2">
                   {user.resume ? (
                     <a
                       href={user.resume}
@@ -88,7 +91,7 @@ export function UserTable({
                     "—"
                   )}
                 </TableCell>
-                <TableCell className="text-right space-x-2">
+                <TableCell className="px-4 py-2 text-right space-x-1">
                   <Button variant="ghost" size="sm" onClick={() => onView(user._id)}>
                     View
                   </Button>
@@ -108,7 +111,7 @@ export function UserTable({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={7} className="text-center text-gray-500">
+              <TableCell colSpan={7} className="text-center text-gray-500 px-4 py-4">
                 No users found
               </TableCell>
             </TableRow>
@@ -116,7 +119,9 @@ export function UserTable({
         </TableBody>
       </Table>
 
-      <Pagination page={page} totalPages={totalPages} onPageChange={onPageChange} />
+      <div className="mt-4 px-4">
+        <Pagination page={page} totalPages={totalPages} onPageChange={onPageChange} />
+      </div>
     </div>
   )
 }

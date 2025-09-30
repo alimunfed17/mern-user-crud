@@ -15,7 +15,7 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
         placeholder="Search users..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="pl-9"
+        className="pl-9 border border-black focus:bg-white"
       />
     </div>
   )

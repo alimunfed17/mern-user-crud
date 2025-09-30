@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { updateUser, getUser } from "../../services/api";
+import { updateUser, getUser } from "../../services/api"
 import UserForm from "./UserForm"
 import { useSnackbar } from "notistack"
 import { Button } from "@/components/ui/button"
@@ -21,7 +21,7 @@ export default function EditUser() {
     try {
       if (!id) return
       await updateUser(id, data)
-      enqueueSnackbar("User updated", { variant: "success" })
+      enqueueSnackbar("User updated successfully", { variant: "success" })
       navigate("/")
     } catch {
       enqueueSnackbar("Failed to update user", { variant: "error" })
@@ -29,18 +29,38 @@ export default function EditUser() {
   }
 
   return (
-    <div className="p-6 max-w-2xl mx-auto border-2 shadow-lg rounded-xl bg-blue-100">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Edit User</h1>
-        <Button variant="outline" size="sm" onClick={() => navigate("/")}>
-          Back
-        </Button>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg border border-gray-200 overflow-hidden">
+        <div className="flex flex-col md:flex-row items-center justify-between px-6 py-4 bg-gray-300 border-b border-gray-200">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+            Edit User
+          </h1>
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-3 md:mt-0"
+            onClick={() => navigate("/")}
+          >
+            Back
+          </Button>
+        </div>
+
+        <div className="p-6 md:p-8">
+          {user ? (
+            <UserForm initialData={user} onSubmit={handleSubmit} />
+          ) : (
+            <p className="text-center text-gray-500 text-lg">
+              Loading user data...
+            </p>
+          )}
+        </div>
+
+        <div className="px-6 pb-6 text-center">
+          <p className="text-sm text-gray-500">
+            Update the user information as needed. Fields marked with * are required.
+          </p>
+        </div>
       </div>
-      {user ? (
-        <UserForm initialData={user} onSubmit={handleSubmit} />
-      ) : (
-        <p>Loading...</p>
-      )}
     </div>
   )
 }
