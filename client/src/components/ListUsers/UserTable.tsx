@@ -12,6 +12,9 @@ interface User {
   _id: string
   name: string
   email: string
+  gender?: string
+  status?: string
+  resume?: string
 }
 
 interface UserTableProps {
@@ -29,6 +32,9 @@ export function UserTable({ users, onEdit, onDelete, onView }: UserTableProps) {
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead>Gender</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Resume</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -38,6 +44,32 @@ export function UserTable({ users, onEdit, onDelete, onView }: UserTableProps) {
               <TableRow key={user._id}>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
+                <TableCell>{user.gender || "—"}</TableCell>
+                <TableCell>
+                  <span
+                    className={`px-2 py-1 rounded text-xs ${
+                      user.status === "active"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {user.status || "unknown"}
+                  </span>
+                </TableCell>
+                <TableCell>
+                  {user.resume ? (
+                    <a
+                      href={user.resume}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      View Resume
+                    </a>
+                  ) : (
+                    "—"
+                  )}
+                </TableCell>
                 <TableCell className="text-right space-x-2">
                   <Button variant="ghost" size="sm" onClick={() => onView(user._id)}>
                     View
@@ -58,7 +90,7 @@ export function UserTable({ users, onEdit, onDelete, onView }: UserTableProps) {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={3} className="text-center text-gray-500">
+              <TableCell colSpan={6} className="text-center text-gray-500">
                 No users found
               </TableCell>
             </TableRow>
