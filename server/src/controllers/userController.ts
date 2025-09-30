@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User from "../models/User";
+import { exportUsersToCSV } from "../utils/csvExport";
 
 export const createUser = async (req: Request, res: Response) => {
   try {
@@ -58,6 +59,16 @@ export const getUsers = async (req: Request, res: Response) => {
       page: +page,
       pages: Math.ceil(total / +limit)
     });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const exportUsers = async (_req: Request, res: Response) => {
+  try {
+    const users = await User.find({});
+    const csvPath = await exportUsersToCSV(users);
+    res.download(csvPath);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
