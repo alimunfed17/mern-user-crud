@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { updateUser, getUser } from "../../services/api";
 import UserForm from "./UserForm"
 import { useSnackbar } from "notistack"
+import { Button } from "@/components/ui/button"
 
 export default function EditUser() {
   const [user, setUser] = useState<any>(null)
@@ -29,7 +30,12 @@ export default function EditUser() {
 
   return (
     <div className="p-6 max-w-2xl mx-auto border-2 shadow-lg rounded-xl bg-blue-100">
-      <h1 className="text-2xl font-bold mb-4">Edit User</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Edit User</h1>
+        <Button variant="outline" size="sm" onClick={() => navigate("/")}>
+          Back
+        </Button>
+      </div>
       {user ? (
         <UserForm initialData={user} onSubmit={handleSubmit} />
       ) : (

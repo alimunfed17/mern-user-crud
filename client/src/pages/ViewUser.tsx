@@ -33,7 +33,7 @@ export default function ViewUser() {
       <Card className="w-full max-w-xl bg-white shadow-xl border border-gray-200 rounded-xl">
         <CardHeader className="flex justify-between items-center">
           <h2 className="text-2xl font-bold text-gray-800">{user.name}</h2>
-          <Button variant="outline" size="sm" onClick={() => navigate(-1)}>
+          <Button variant="outline" size="sm" onClick={() => navigate("/")}>
             Back
           </Button>
         </CardHeader>
