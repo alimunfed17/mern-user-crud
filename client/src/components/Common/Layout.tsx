@@ -36,6 +36,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </div>
 
       <main className="flex-1 pt-24 overflow-auto container mx-auto px-4">
+      <p className='text-center bg-red-500 text-gray-600'>NOTE: <span className='text-white'>This project / app is deployed on Render & free tier. <br/>So, It might take a few minutes to run the app. The backend is live on this </span><a className='text-blue-600 underline' href="https://mern-user-crud.onrender.com/">link</a>.</p>
         {children}
       </main>
     </div>

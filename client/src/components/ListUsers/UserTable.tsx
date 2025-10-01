@@ -1,32 +1,27 @@
-import { Button } from "@/components/ui/button"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { Pagination } from "@/components/Layout/Pagination"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Pagination } from "@/components/Common/Pagination";
+import { ConfirmModal } from "@/components/Common/ConfirmModal";
 
 interface User {
-  _id: string
-  name: string
-  email: string
-  gender?: string
-  status?: string
-  resume?: string
+  _id: string;
+  name: string;
+  email: string;
+  gender?: string;
+  status?: string;
+  resume?: string;
 }
 
 interface UserTableProps {
-  users: User[]
-  total: number
-  page: number
-  limit: number
-  onPageChange: (page: number) => void
-  onEdit: (id: string) => void
-  onDelete: (id: string) => void
-  onView: (id: string) => void
+  users: User[];
+  total: number;
+  page: number;
+  limit: number;
+  onPageChange: (page: number) => void;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
+  onView: (id: string) => void;
 }
 
 export function UserTable({
@@ -39,7 +34,25 @@ export function UserTable({
   onDelete,
   onView,
 }: UserTableProps) {
-  const totalPages = Math.ceil(total / limit)
+  const totalPages = Math.ceil(total / limit);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+
+  const handleDeleteClick = (id: string) => {
+    setSelectedUserId(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    if (selectedUserId) onDelete(selectedUserId);
+    setShowDeleteModal(false);
+    setSelectedUserId(null);
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+    setSelectedUserId(null);
+  };
 
   return (
     <div className="overflow-x-auto rounded-md border border-gray-200 shadow-sm">
@@ -58,10 +71,7 @@ export function UserTable({
         <TableBody>
           {users.length > 0 ? (
             users.map((user, index) => (
-              <TableRow
-                key={user._id}
-                className="border-b hover:bg-gray-50 transition-colors"
-              >
+              <TableRow key={user._id} className="border-b hover:bg-gray-50 transition-colors">
                 <TableCell className="px-4 py-2">{(page - 1) * limit + index + 1}</TableCell>
                 <TableCell className="px-4 py-2">{user.name}</TableCell>
                 <TableCell className="px-4 py-2">{user.email}</TableCell>
@@ -79,12 +89,7 @@ export function UserTable({
                 </TableCell>
                 <TableCell className="px-4 py-2">
                   {user.resume ? (
-                    <a
-                      href={user.resume}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
-                    >
+                    <a href={user.resume} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                       View Resume
                     </a>
                   ) : (
@@ -92,18 +97,13 @@ export function UserTable({
                   )}
                 </TableCell>
                 <TableCell className="px-4 py-2 text-right space-x-1">
-                  <Button variant="ghost" size="sm" onClick={() => onView(user._id)}>
+                  <Button variant="ghost" size="sm" onClick={() => onView(user._id)} className="hover:text-blue-600 hover:bg-gray-200">
                     View
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={() => onEdit(user._id)}>
+                  <Button variant="ghost" size="sm" onClick={() => onEdit(user._id)} className="hover:bg-gray-200">
                     Edit
                   </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-red-600"
-                    onClick={() => onDelete(user._id)}
-                  >
+                  <Button variant="ghost" size="sm" className="text-red-600 hover:bg-gray-200" onClick={() => handleDeleteClick(user._id)}>
                     Delete
                   </Button>
                 </TableCell>
@@ -122,6 +122,14 @@ export function UserTable({
       <div className="mt-4 px-4">
         <Pagination page={page} totalPages={totalPages} onPageChange={onPageChange} />
       </div>
+
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        title="Confirm Delete"
+        message="Are you sure you want to delete this user?"
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
-  )
+  );
 }

@@ -7,8 +7,8 @@ interface ExportButtonProps {
 
 export function ExportButton({ onClick }: ExportButtonProps) {
   return (
-    <Button variant="outline" onClick={onClick}>
-      <Download className="h-4 w-4 mr-2" /> Export CSV
+    <Button variant="outline" onClick={onClick} className="hover:bg-black hover:text-white">
+      <Download className="h-4 w-4" /> Export CSV
     </Button>
   )
 }
