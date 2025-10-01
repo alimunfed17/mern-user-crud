@@ -16,7 +16,7 @@ interface UserDetailsProps {
 export const UserDetails: FC<UserDetailsProps> = ({ user }) => {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
-      <div className="flex items-center space-x-3 border border-black max-w-fit px-4">
+      <div className="flex items-center space-x-3">
         <User className="w-8 h-8 text-primary" />
         <h1 className="text-xl font-semibold">User Details</h1>
       </div>
@@ -30,7 +30,16 @@ export const UserDetails: FC<UserDetailsProps> = ({ user }) => {
 
           <div className="flex flex-col">
             <p className="text-sm font-medium text-gray-700 mb-2">Status</p>
-            <Badge variant="secondary">{user.status}</Badge>
+            <Badge 
+              variant="secondary" 
+              className={
+                user.status === "active" 
+                ? "bg-green-100 text-green-800 border-green-200" 
+                : "bg-red-100 text-red-800 border-red-200"
+              }
+            >
+              {user.status}
+            </Badge>
           </div>
         </div>
 
