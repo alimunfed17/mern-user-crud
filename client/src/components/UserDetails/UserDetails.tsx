@@ -1,7 +1,6 @@
 import { type FC } from "react";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Mail, Phone, MapPin, User, Activity } from "lucide-react";
+import { User } from "lucide-react";
 
 interface UserDetailsProps {
   user: {
