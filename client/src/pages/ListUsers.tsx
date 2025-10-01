@@ -60,8 +60,7 @@ export default function ListUsers() {
   return (
     <div className="flex justify-center items-start min-h-screen bg-gray-200 border shadow-lg rounded-xl my-8">
       <div className="w-full max-w-4xl flex flex-col space-y-6 py-6">
-
-        <div className="flex flex-col md:flex-row items-center justify-between gap-3 border border-gray-500 rounded-xl p-4 ">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 p-4 ">
           <SearchBar value={search} onChange={setSearch} />
           <div className="flex gap-2">
             <ExportButton onClick={handleExport} />

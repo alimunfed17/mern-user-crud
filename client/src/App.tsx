@@ -3,7 +3,7 @@ import ListUsers from "./pages/ListUsers";
 import AddEditUser from "./pages/AddEditUser";
 import ViewUser from "./pages/ViewUser";
 import { SnackbarProvider } from "notistack";
-import Layout from "./components/Layout/Layout";
+import Layout from "./components/Common/Layout";
 
 function App() {
   return (
