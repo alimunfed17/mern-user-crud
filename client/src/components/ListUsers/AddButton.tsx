@@ -7,8 +7,8 @@ interface AddButtonProps {
 
 export function AddButton({ onClick }: AddButtonProps) {
   return (
-    <Button onClick={onClick}>
-      <Plus className="h-4 w-4 mr-2" /> Add User
+    <Button onClick={onClick} className="hover:bg-gray-400 hover:text-black">
+      <Plus className="h-4 w-4" /> Add User
     </Button>
   )
 }

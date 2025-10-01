@@ -32,13 +32,13 @@ export default function EditUser() {
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg border border-gray-200 overflow-hidden">
         <div className="flex flex-col md:flex-row items-center justify-between px-6 py-4 bg-gray-300 border-b border-gray-200">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+          <h1 className="text-xl font-bold text-gray-800">
             Edit User
           </h1>
           <Button
             variant="outline"
             size="sm"
-            className="mt-3 md:mt-0"
+            className="w-24 mt-3 md:mt-0 hover:bg-blue-400 text-base"
             onClick={() => navigate("/")}
           >
             Back
@@ -55,11 +55,6 @@ export default function EditUser() {
           )}
         </div>
 
-        <div className="px-6 pb-6 text-center">
-          <p className="text-sm text-gray-500">
-            Update the user information as needed. Fields marked with * are required.
-          </p>
-        </div>
       </div>
     </div>
   )

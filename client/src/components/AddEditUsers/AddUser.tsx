@@ -21,28 +21,24 @@ export default function AddUser() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-8 md:p-10 border border-gray-200">
-        <div className="flex flex-col md:flex-row items-center justify-between mb-6 md:mb-8">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800">
+      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg border border-gray-200 overflow-hidden">
+        <div className="flex flex-col md:flex-row items-center justify-between px-6 py-4 bg-gray-300 border-b border-gray-200">
+          <h1 className="text-xl font-bold text-gray-800">
             Add User
           </h1>
           <Button
             variant="outline"
             size="sm"
-            className="mt-3 md:mt-0"
+            className="w-24 mt-3 md:mt-0 hover:bg-blue-400 text-base"
             onClick={() => navigate("/")}
           >
             Back
           </Button>
         </div>
 
-        <div className="bg-gray-50 rounded-lg p-6 shadow-inner">
+        <div className="p-6 md:p-8">
           <UserForm initialData={null} onSubmit={handleSubmit} />
         </div>
-
-        <p className="mt-4 text-sm text-gray-500 text-center">
-          Fill out the form to add a new user. Fields marked with * are required.
-        </p>
       </div>
     </div>
   )

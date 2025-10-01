@@ -92,16 +92,16 @@ export function UserTable({
                   )}
                 </TableCell>
                 <TableCell className="px-4 py-2 text-right space-x-1">
-                  <Button variant="ghost" size="sm" onClick={() => onView(user._id)}>
+                  <Button variant="ghost" size="sm" onClick={() => onView(user._id)} className="hover:text-blue-600 hover:bg-gray-200">
                     View
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={() => onEdit(user._id)}>
+                  <Button variant="ghost" size="sm" onClick={() => onEdit(user._id)} className="hover:bg-gray-200">
                     Edit
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-red-600"
+                    className="text-red-600 hover:bg-gray-200"
                     onClick={() => onDelete(user._id)}
                   >
                     Delete
